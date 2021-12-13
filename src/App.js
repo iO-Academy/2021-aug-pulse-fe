@@ -1,6 +1,5 @@
 import './App.css';
 import DateAdapter from '@mui/lab/AdapterDateFns';
-import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import DisplayAppointments from "./components/DisplayAppointments";
 
