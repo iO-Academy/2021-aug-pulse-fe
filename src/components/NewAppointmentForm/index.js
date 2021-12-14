@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Button} from "react-bootstrap";
+import { Form, Button } from "react-bootstrap";
 
 
 const NewAppointmentForm = () => {
@@ -7,8 +7,9 @@ const NewAppointmentForm = () => {
     return (
         <div>
             <div>
-                <h3>Symptom Details</h3>
-                <h5>please fill out your information below</h5>
+
+                <h3>Patient Information</h3>
+                <h5>please fill out your details below</h5>
                 {/*form for patient information*/}
                 <Form>
                     <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
@@ -28,8 +29,8 @@ const NewAppointmentForm = () => {
                         <Form.Control as="textarea" rows={5} placeholder="Description of Symptoms" />
                     </Form.Group>
                 </Form>
-                <Button variant="primary">Confirm</Button>
-                <Button variant="primary">Back</Button>
+                <Button variant="outline-secondary">Confirm</Button>
+                <Button variant="outline-secondary">Back</Button>
 
 
             </div>
