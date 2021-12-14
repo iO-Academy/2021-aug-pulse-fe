@@ -1,7 +1,9 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {Button, Container, DropdownButton, Dropdown, Form} from "react-bootstrap";
 import AvailableAppointments from "../AvailableAppointments";
-import {Link} from "react-router-dom";
+import {Link, useSearchParams} from "react-router-dom";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 const DUMMY_SLOTS = [
     {
@@ -27,30 +29,72 @@ const DUMMY_SLOTS = [
 ];
 
 const BookAppointments = () => {
+    const [doctors, setDoctors] = useState([]);
+    const [appointmentDoctor, setAppointmentDoctor] = useState([]);
+    const [appointmentDate, setAppointmentDate] = useState(new Date());
+    const [appointmentSlot, setAppointmentSlot] = useState();
+    const [appointments, setAppointments] = useState([]);
+    const [appointmentParams, setAppointmentParams] = useSearchParams();
+
+    async function getDoctors() {
+        const response = await fetch('http://localhost:3001/doctors');
+        return await response.json();
+    }
+
+    async function getBookedAppointments() {
+        const response = await fetch(`http://localhost:3001/appointments?doctorid=1&appdate=25012021`);
+        return await response.json();
+    }
+
+    useEffect(() => {
+        getDoctors().then(data => setDoctors(data));
+    }, [])
+
+    const getAppointmentsHandler = (event) => {
+        event.preventDefault();
+        getBookedAppointments().then(data => setAppointments(data));
+    };
+
+    const setAppointmentSlotHandler = (appointmentSlotId) => {
+        setAppointmentSlot(appointmentSlotId);
+    };
+
+    function formatDate(date) {
+        const day = date.getDate();
+        const month = date.getMonth();
+        const year = date.getFullYear();
+        const str = day.toString() + month.toString() + year.toString();
+        console.log(str);
+        return str;
+    }
+
     return (
         <Container>
-            <Form>
+            <Form onSubmit={getAppointmentsHandler}>
                 <h2>Book Appointment</h2>
                 <Form.Group className="mb-3" controlId="form.doctorDropdown">
-                    <Form.Select aria-label="Select Doctor">
+                    <Form.Select aria-label="Select Doctor" onChange={(event) =>
+                        setAppointmentDoctor(event.target.value)}>
                         <option>Select doctor...</option>
-                        <option value="1">Dr. Seuss</option>
-                        <option value="2">Dr. Gandhi</option>
-                        <option value="3">Dr. Doolittle</option>
+                        {doctors.map(doctor =>
+                            <option
+                                value={doctor.doctorID}>Dr. {doctor.doctorFirstName} {doctor.doctorLastName}</option>
+                        )}
                     </Form.Select>
                 </Form.Group>
                 <Form.Group className="mb-3" controlId="form.calendar">
-                    <Form.Control type="date"/>
+                    <DatePicker selected={appointmentDate}
+                                onChange={(date) => setAppointmentDate(date)}/>
                 </Form.Group>
-                <Button>Show available time slots</Button>
+                <Button type="submit">Show available time slots</Button>
             </Form>
-            {/*<DropdownButton id="dropdown-basic-button" title="Dropdown button">*/}
-            {/*    <Dropdown.Item href="#/action-1">Action</Dropdown.Item>*/}
-            {/*    <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>*/}
-            {/*    <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>*/}
-            {/*</DropdownButton>*/}
-            <AvailableAppointments appointments={DUMMY_SLOTS}/>
-            <Link to="/newappointment" className="btn btn-primary">Continue</Link>
+
+            <AvailableAppointments appointments={appointments}
+                                   appointmentDateHandler={setAppointmentSlotHandler}/>
+            <Link
+                to={`/newappointment?doctorId=${appointmentDoctor}&slot=${appointmentSlot}&appdate=${formatDate(appointmentDate)}`}
+                className="btn btn-primary">Continue</Link>
+
         </Container>
     )
 };
