@@ -1,6 +1,7 @@
 import React from 'react';
 import {Button, Container, DropdownButton, Dropdown, Form} from "react-bootstrap";
 import AvailableAppointments from "../AvailableAppointments";
+import {Link} from "react-router-dom";
 
 const DUMMY_SLOTS = [
     {
@@ -25,11 +26,11 @@ const DUMMY_SLOTS = [
     }
 ];
 
-const DisplayAppointments = () => {
+const BookAppointments = () => {
     return (
         <Container>
             <Form>
-                <h2>Create Appointment</h2>
+                <h2>Book Appointment</h2>
                 <Form.Group className="mb-3" controlId="form.doctorDropdown">
                     <Form.Select aria-label="Select Doctor">
                         <option>Select doctor...</option>
@@ -49,9 +50,9 @@ const DisplayAppointments = () => {
             {/*    <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>*/}
             {/*</DropdownButton>*/}
             <AvailableAppointments appointments={DUMMY_SLOTS}/>
-            <Button className="mt-2">Continue</Button>
+            <Link to="/newappointment" className="btn btn-primary">Continue</Link>
         </Container>
     )
 };
 
-export default DisplayAppointments;
+export default BookAppointments;
