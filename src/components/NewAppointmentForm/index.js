@@ -1,5 +1,6 @@
 import React from 'react';
 import { Form, Button } from "react-bootstrap";
+import {Link} from "react-router-dom";
 
 
 const NewAppointmentForm = () => {
@@ -29,8 +30,8 @@ const NewAppointmentForm = () => {
                         <Form.Control as="textarea" rows={5} placeholder="Description of Symptoms" />
                     </Form.Group>
                 </Form>
-                <Button variant="outline-secondary">Confirm</Button>
-                <Button variant="outline-secondary">Back</Button>
+                <Link to="/confirmappointment" className="btn btn-primary">Confirm</Link>
+                <Link to="/appointments" className="btn btn-primary">Back</Link>
 
 
             </div>
