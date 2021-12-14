@@ -5,7 +5,7 @@ import {Link} from "react-router-dom";
 
 const NewAppointmentForm = () => {
     const urlSearchParams = new URLSearchParams(window.location.search);
-    const params = Object.fromEntries(urlSearchParams.entries());
+    console.log(`[params]: ${urlSearchParams.get('doctorId') }`);
 
     return (
         <div>
