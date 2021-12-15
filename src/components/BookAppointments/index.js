@@ -13,6 +13,11 @@ const BookAppointments = () => {
     const [appointmentSlot, setAppointmentSlot] = useState();
     const [appointments, setAppointments] = useState([]);
     const [appointmentParams, setAppointmentParams] = useSearchParams();
+    const [appointment, setAppointment] = useState({
+        doctorId: 3,
+        slotId: 14,
+        appDate: 24122021
+    })
 
     /**
      * Creates required date format to pass in url params
@@ -59,6 +64,7 @@ const BookAppointments = () => {
 
     const setAppointmentSlotHandler = (appointmentSlotId) => {
         setAppointmentSlot(appointmentSlotId);
+        // setAppointment(doctorId)
     };
 
     const isWeekday = (date) => {
@@ -97,6 +103,8 @@ const BookAppointments = () => {
                                    appointmentDateHandler={setAppointmentSlotHandler}/>
             <Link
                 to={`/newappointment?doctorId=${appointmentDoctor}&slot=${appointmentSlot}&appdate=${formatDate(appointmentDate)}`}
+                // state = {{ from: appointment }}
+                state = {{doctorId: 3, slotId: 14, appDate: 24122021}}
                 className="btn btn-primary">Continue</Link>
 
         </Container>

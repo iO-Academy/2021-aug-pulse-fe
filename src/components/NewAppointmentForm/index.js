@@ -1,11 +1,17 @@
 import React from 'react';
 import { Form, Button } from "react-bootstrap";
 import {Link} from "react-router-dom";
+import { useLocation } from 'react-router-dom'
 
 
 const NewAppointmentForm = () => {
     const urlSearchParams = new URLSearchParams(window.location.search);
     console.log(`[params]: ${urlSearchParams.get('doctorId') }`);
+
+    const location = useLocation()
+    const { from } = location.state;
+    console.log(`[state]: ${location.state.doctorId}`);
+    // console.log(`[state]: ${from.doctorId}`);
 
     return (
         <div>
