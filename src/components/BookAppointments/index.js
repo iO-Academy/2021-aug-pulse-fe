@@ -8,16 +8,9 @@ import "react-datepicker/dist/react-datepicker.css";
 
 const BookAppointments = () => {
     const [doctors, setDoctors] = useState([]);
-    const [appointmentDoctor, setAppointmentDoctor] = useState([]);
     const [appointmentDate, setAppointmentDate] = useState(new Date());
-    const [appointmentSlot, setAppointmentSlot] = useState();
     const [appointments, setAppointments] = useState([]);
-    const [appointmentParams, setAppointmentParams] = useSearchParams();
-    const [appointment, setAppointment] = useState({
-        doctorId: 3,
-        slotId: 14,
-        appDate: 24122021
-    })
+    const [appointment, setAppointment] = useState()
 
     /**
      * Creates required date format to pass in url params
@@ -37,7 +30,7 @@ const BookAppointments = () => {
 
     async function getBookedAppointments() {
         const response = await fetch(process.env.REACT_APP_API_SERVER_URL +
-            `/appointments?doctorid=${appointmentDoctor}&appdate=${formatDate(appointmentDate)}`);
+            `/appointments?doctorid=${appointment['doctorID']}&appdate=${appointment['date']}`);
         return await response.json();
     }
 
@@ -45,6 +38,11 @@ const BookAppointments = () => {
         getDoctors().then(data => setDoctors(data));
     }, [])
 
+    /**
+     * Based on booked time slots, sets the available slots by filtering out the slots that
+     * have been booked in a standard work hours.
+     * @param data
+     */
     const calcAvailableAppointmentSlots = (data) => {
         const slots = [
             {id: 9, time: '09:00'}, {id: 10, time: '10:00'}, {id: 11, time: '11:00'},
@@ -57,14 +55,16 @@ const BookAppointments = () => {
         setAppointments(slotsAvailable);
     };
 
-    const getAppointmentsHandler = (event) => {
+    const setAppointmentHandler = (event) => {
         event.preventDefault();
         getBookedAppointments().then(data => calcAvailableAppointmentSlots(data));
     };
 
     const setAppointmentSlotHandler = (appointmentSlotId) => {
-        setAppointmentSlot(appointmentSlotId);
-        // setAppointment(doctorId)
+        setAppointment(prevState => ({
+            ...prevState,
+            "timeID": appointmentSlotId.toString()
+        }))
     };
 
     const isWeekday = (date) => {
@@ -74,11 +74,15 @@ const BookAppointments = () => {
 
     return (
         <Container>
-            <Form onSubmit={getAppointmentsHandler}>
+            <Form onSubmit={setAppointmentHandler}>
                 <h2>Book Appointment</h2>
                 <Form.Group className="mb-3" controlId="form.doctorDropdown">
                     <Form.Select aria-label="Select Doctor" onChange={(event) =>
-                        setAppointmentDoctor(event.target.value)}>
+                        setAppointment(prevState => ({
+                            ...prevState,
+                            "doctorID": Number(event.target.value)
+                        }))}
+                    >
                         <option>Select doctor...</option>
                         {doctors.map(doctor =>
                             <option key={doctor.doctorID}
@@ -90,10 +94,12 @@ const BookAppointments = () => {
                     <DatePicker dateFormat="dd/MM/yyyy"
                                 filterDate={isWeekday}
                                 selected={appointmentDate}
-                                onChange={(date) => setAppointmentDate(date)}/>
-                    {/*<Form.Control type="date" name="appDate"*/}
-                    {/*              onChange={(event) =>*/}
-                    {/*                  setAppointmentDate(event.target.value)}/>*/}
+                                onChange={(date) => {
+                                    setAppointmentDate(date);   // only (re)populates the field
+                                    setAppointment(prevState => ({
+                                        ...prevState,
+                                        "date": Number(formatDate(date))
+                                    }))}}/>
                     <Button type="submit">Show available time slots</Button>
                 </Form.Group>
 
@@ -102,9 +108,8 @@ const BookAppointments = () => {
             <AvailableAppointments appointments={appointments}
                                    appointmentDateHandler={setAppointmentSlotHandler}/>
             <Link
-                to={`/newappointment?doctorId=${appointmentDoctor}&slot=${appointmentSlot}&appdate=${formatDate(appointmentDate)}`}
-                // state = {{ from: appointment }}
-                state = {{doctorId: 3, slotId: 14, appDate: 24122021}}
+                to={'/newappointment'}
+                state={{appointment}}
                 className="btn btn-primary">Continue</Link>
 
         </Container>

@@ -1,17 +1,35 @@
-import React from 'react';
-import { Form, Button } from "react-bootstrap";
+import React, {useEffect, useState} from 'react';
+import {Form, Button, Modal} from "react-bootstrap";
 import {Link} from "react-router-dom";
 import { useLocation } from 'react-router-dom'
 
 
 const NewAppointmentForm = () => {
-    const urlSearchParams = new URLSearchParams(window.location.search);
-    console.log(`[params]: ${urlSearchParams.get('doctorId') }`);
-
     const location = useLocation()
     const { from } = location.state;
-    console.log(`[state]: ${location.state.doctorId}`);
-    // console.log(`[state]: ${from.doctorId}`);
+    const [appointment, setAppointment] = useState();
+    const [show, setShow] = useState(false);
+
+    useEffect(() => {
+        setAppointment(prevState => ({
+            ...prevState,
+            "date": location.state.appointment['date'],
+            "doctorID": location.state.appointment['doctorID'],
+            "timeID": location.state.appointment['timeID']
+        }));
+    }, [])
+
+
+    const formDataChangeHandler = (event) => {
+        setAppointment(prevState => ({
+            ...prevState,
+            [event.target.name]: event.target.value,
+        }));
+        console.log(appointment);
+    };
+
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
 
     return (
         <div>
@@ -23,24 +41,42 @@ const NewAppointmentForm = () => {
                 <Form>
                     <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                         <Form.Label>Email address</Form.Label>
-                        <Form.Control type="email" placeholder="name@example.com" />
+                        <Form.Control type="email" name="patientEmail" onChange={formDataChangeHandler} placeholder="name@example.com" />
                     </Form.Group>
                     <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                         <Form.Label>First Name</Form.Label>
-                        <Form.Control type="name" placeholder="patient" />
+                        <Form.Control type="name" name="patientFirstName" onChange={formDataChangeHandler} placeholder="patient" />
                     </Form.Group>
                     <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                         <Form.Label>Last Name</Form.Label>
-                        <Form.Control type="name" placeholder="patient-surname" />
+                        <Form.Control type="name" name="patientLastName" onChange={formDataChangeHandler} placeholder="patient-surname" />
                     </Form.Group>
                     <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
                         <Form.Label>Symptoms</Form.Label>
-                        <Form.Control as="textarea" rows={5} placeholder="Description of Symptoms" />
+                        <Form.Control as="textarea" rows={5} name="notes" onChange={formDataChangeHandler} placeholder="Description of Symptoms" />
                     </Form.Group>
                 </Form>
-                <Link to="/confirmappointment" className="btn btn-primary">Confirm</Link>
+                <Button onClick={handleShow}>Test Modal</Button>
+                <Link
+                    to={'/confirmappointment' }
+                    state = {{ appointment }}
+                    className="btn btn-primary">Confirm</Link>
                 <Link to="/appointments" className="btn btn-primary">Back</Link>
 
+                <Modal show={show} onHide={handleClose}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Modal heading</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>Woohoo, you're reading this text in a modal!</Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="secondary" onClick={handleClose}>
+                            Close
+                        </Button>
+                        <Button variant="primary" onClick={handleClose}>
+                            Save Changes
+                        </Button>
+                    </Modal.Footer>
+                </Modal>
 
             </div>
         </div>
