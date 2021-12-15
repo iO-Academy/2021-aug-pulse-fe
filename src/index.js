@@ -7,6 +7,7 @@ import reportWebVitals from './reportWebVitals';
 import BookAppointments from "./components/BookAppointments";
 import NewAppointmentForm from "./components/NewAppointmentForm";
 import AppointmentConfirmation from "./components/AppointmentConfirmation";
+import DoctorLoginPage from "./components/DoctorLoginPage";
 
 ReactDOM.render(
     <BrowserRouter>
@@ -15,6 +16,7 @@ ReactDOM.render(
                 <Route path="appointments" element={<BookAppointments/>}/>
                 <Route path="newappointment" element={<NewAppointmentForm/>}/>
                 <Route path="confirmappointment" element={<AppointmentConfirmation/>}/>
+                <Route path="doctorlogin" element={<DoctorLoginPage/>}/>
                 <Route
                     path="*"
                     element={
