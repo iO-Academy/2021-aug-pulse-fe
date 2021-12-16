@@ -102,7 +102,7 @@ const BookAppointments = () => {
                 </Row>
                 <Row className="mb-2">
                     <h6>Select Date:</h6>
-                    <Form.Group as={Col} xl={6} controlId="form.calendar">
+                    <Form.Group as={Col} controlId="form.calendar">
                         <div className="d-flex mb-1">
                             <div className="align-self-center">
                                 <DatePicker dateFormat="dd/MM/yyyy"
@@ -118,7 +118,7 @@ const BookAppointments = () => {
                                                 }))
                                             }}/>
                             </div>
-                            <div className="align-self-center  mx-1">
+                            <div className="align-self-center mx-1">
                                 <img src={calLogo} width="30" height="30"/>
                             </div>
                         </div>
