@@ -15,6 +15,7 @@ function App() {
             <div>
                 <Link to="/appointments" className="btn btn-primary me-2">Book Appointment</Link>
                 <Link to="/doctorlogin" className="btn btn-primary">GP Portal</Link>
+                <img src={logo} width="280" height="180" className="mt-2 mb-3"/>
                 {/*<Link to="/expenses">Expenses</Link>*/}
             </div>
             {/*<img src={logo} width="250" height="150" className="mt-2 mb-3"/>*/}
