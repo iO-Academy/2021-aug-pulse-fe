@@ -8,7 +8,7 @@ function App() {
             <div className="d-flex flex-row me-2 justify-content-start align-items-center">
                 <h1>Pulse</h1>
                 <div className="d-flex justify-content-center align-items-center">
-                    <h6 className="mt-3 ms-3">health in your hands</h6>
+                    <h6 className="mt-4 ms-3">health in your hands</h6>
                 </div>
             </div>
             <div>
