@@ -10,26 +10,26 @@ const AppointmentConfirmation = () => {
 
     const [appointment, setAppointment] = useState(location.state.appointment);
 
-    async function addAppointment() {
-        const response = await fetch(process.env.REACT_APP_API_SERVER_URL + '/appointments',
-            {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json; charset=UTF-8'},
-                body: JSON.stringify(appointment)
-            });
-        return await response.json();
-
-        // console.log(`[appointment-JSON]: ${JSON.stringify(appointment)}`);
-    }
-
-    const addAppointmentHandler = () => {
-        addAppointment()
-            .then(() => {
-                console.log(`[success]: Successful`);
-            }).catch(error => {
-                console.log(`[error]: ${error}`);
-        })
-    };
+    // async function addAppointment() {
+    //     const response = await fetch(process.env.REACT_APP_API_SERVER_URL + '/appointments',
+    //         {
+    //             method: 'POST',
+    //             headers: {'Content-Type': 'application/json; charset=UTF-8'},
+    //             body: JSON.stringify(appointment)
+    //         });
+    //     return await response.json();
+    //
+    //     // console.log(`[appointment-JSON]: ${JSON.stringify(appointment)}`);
+    // }
+    //
+    // const addAppointmentHandler = () => {
+    //     addAppointment()
+    //         .then(() => {
+    //             console.log(`[success]: Successful`);
+    //         }).catch(error => {
+    //             console.log(`[error]: ${error}`);
+    //     })
+    // };
 
     return (
         <div>
@@ -47,7 +47,7 @@ const AppointmentConfirmation = () => {
                 </ListGroup>
                 {/*get all appointment selection data from previous pages, POST to database*/}
                 <Link to="/appointments" className="btn btn-primary">Cancel</Link>
-                <Button className="btn btn-primary" onClick={addAppointmentHandler}>Confirm</Button>
+                {/*<Button className="btn btn-primary" onClick={addAppointmentHandler}>Confirm</Button>*/}
             </Container>
 
         </div>

@@ -1,16 +1,20 @@
 import React, {useEffect, useState} from 'react';
-import {Button, Container, Form, Stack} from "react-bootstrap";
+import {Button, Container, Form, OverlayTrigger, Stack, Tooltip} from "react-bootstrap";
 import AvailableAppointments from "../AvailableAppointments";
-import {Link, useSearchParams} from "react-router-dom";
+import {Link, useNavigate, useSearchParams} from "react-router-dom";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
 
 const BookAppointments = () => {
     const [doctors, setDoctors] = useState([]);
-    const [appointmentDate, setAppointmentDate] = useState(new Date());
+    const [appointmentDate, setAppointmentDate] = useState();
     const [appointments, setAppointments] = useState([]);
     const [appointment, setAppointment] = useState()
+    const [disabledContinue, setDisabledContinue] = useState(true);
+    const [disabledAppointments, setDisabledAppointments] = useState(true);
+
+    let navigate = useNavigate();
 
     /**
      * Creates required date format to pass in url params
@@ -61,9 +65,10 @@ const BookAppointments = () => {
     };
 
     const setAppointmentSlotHandler = (appointmentSlotId) => {
+        setDisabledContinue(false);
         setAppointment(prevState => ({
             ...prevState,
-            "timeID": appointmentSlotId.toString()
+            "timeID": appointmentSlotId
         }))
     };
 
@@ -77,11 +82,13 @@ const BookAppointments = () => {
             <Form onSubmit={setAppointmentHandler}>
                 <h2>Book Appointment</h2>
                 <Form.Group className="mb-3" controlId="form.doctorDropdown">
-                    <Form.Select aria-label="Select Doctor" onChange={(event) =>
+                    <Form.Select aria-label="Select doctor..." onChange={(event) => {
+                        setDisabledAppointments(false);
                         setAppointment(prevState => ({
                             ...prevState,
                             "doctorID": Number(event.target.value)
-                        }))}
+                        }))
+                    }}
                     >
                         <option>Select doctor...</option>
                         {doctors.map(doctor =>
@@ -94,23 +101,35 @@ const BookAppointments = () => {
                     <DatePicker dateFormat="dd/MM/yyyy"
                                 filterDate={isWeekday}
                                 selected={appointmentDate}
-                                onChange={(date) => {
+                                minDate={new Date()}
+                                placeholderText="Click to select date..."
+                                onSelect={(date) => {
                                     setAppointmentDate(date);   // only (re)populates the field
                                     setAppointment(prevState => ({
                                         ...prevState,
                                         "date": Number(formatDate(date))
-                                    }))}}/>
-                    <Button type="submit">Show available time slots</Button>
+                                    }))
+                                }}/>
+                    <Button type="submit" className="btn btn-primary mt-2" disabled={disabledAppointments}>Show
+                        available time slots</Button>
                 </Form.Group>
 
             </Form>
 
             <AvailableAppointments appointments={appointments}
                                    appointmentDateHandler={setAppointmentSlotHandler}/>
-            <Link
-                to={'/newappointment'}
-                state={{appointment}}
-                className="btn btn-primary">Continue</Link>
+            {/*<Link*/}
+            {/*    to={'/newappointment'}*/}
+            {/*    state={{appointment}}*/}
+            {/*    className="btn btn-primary" disabled="true">Continue</Link>*/}
+
+            {/*<OverlayTrigger overlay={<Tooltip id="tooltip-disabled">Please select a doctor</Tooltip>}>*/}
+            {/*    <span className="d-inline-block">*/}
+            <Button className="btn btn-primary mt-2"
+                    disabled={disabledContinue}
+                    onClick={() => navigate("/newappointment", {state: {appointment}})}>Continue</Button>
+            {/*    </span>*/}
+            {/*</OverlayTrigger>*/}
 
         </Container>
     )
