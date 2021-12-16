@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
-import {Button, Container, Form, OverlayTrigger, Stack, Tooltip} from "react-bootstrap";
+import {Button, Container, Form} from "react-bootstrap";
 import AvailableAppointments from "../AvailableAppointments";
-import {Link, useNavigate, useSearchParams} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
