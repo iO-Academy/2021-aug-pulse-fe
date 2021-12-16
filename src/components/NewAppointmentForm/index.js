@@ -107,13 +107,8 @@ const NewAppointmentForm = () => {
 
             </Form>
 
-            {/*<Link*/}
-            {/*    to={'/confirmappointment'}*/}
-            {/*    state={{appointment}}*/}
-            {/*    className="btn btn-primary">Confirm</Link>*/}
-
-
             <div>
+
                 <Modal show={show} backdrop="static" size="lg" onHide={handleClose}>
                     <Modal.Header>
                         <Modal.Title><h4>Appointment Overview</h4>

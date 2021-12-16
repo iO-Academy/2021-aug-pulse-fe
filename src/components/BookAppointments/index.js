@@ -97,6 +97,7 @@ const BookAppointments = () => {
                         )}
                     </Form.Select>
                 </Form.Group>
+                <h6>Select Date:</h6>
                 <Form.Group className="mb-3" controlId="form.calendar">
                     <DatePicker dateFormat="dd/MM/yyyy"
                                 filterDate={isWeekday}
@@ -110,7 +111,7 @@ const BookAppointments = () => {
                                         "date": Number(formatDate(date))
                                     }))
                                 }}/>
-                    <Button type="submit" className="btn btn-primary mt-2" disabled={disabledAppointments}>Show
+                    <Button type="submit" variant="primary" size="sm" className="mt-2" disabled={disabledAppointments}>Show
                         available time slots</Button>
                 </Form.Group>
 
