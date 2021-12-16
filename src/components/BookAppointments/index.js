@@ -1,9 +1,10 @@
 import React, {useEffect, useState} from 'react';
-import {Button, Container, Form} from "react-bootstrap";
+import {Button, Col, Container, Form, Row} from "react-bootstrap";
 import AvailableAppointments from "../AvailableAppointments";
 import {useNavigate} from "react-router-dom";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import calLogo from '../../assets/calendar-date-svgrepo-com.svg';
 
 
 const BookAppointments = () => {
@@ -54,7 +55,7 @@ const BookAppointments = () => {
             {id: 15, time: '15:00'}, {id: 16, time: '16:00'}];
 
         let slotsBooked = data.map(appointment => appointment.timeID);
-        let slotsAvailable = slots.filter(slot => !slotsBooked.includes(slot.id))
+        let slotsAvailable = slots.filter(slot => !slotsBooked.includes(slot.id));
 
         setAppointments(slotsAvailable);
     };
@@ -79,41 +80,53 @@ const BookAppointments = () => {
 
     return (
         <Container>
+            <h2>Book Appointment</h2>
             <Form onSubmit={setAppointmentHandler}>
-                <h2>Book Appointment</h2>
-                <Form.Group className="mb-3" controlId="form.doctorDropdown">
-                    <Form.Select aria-label="Select doctor..." onChange={(event) => {
-                        setDisabledAppointments(false);
-                        setAppointment(prevState => ({
-                            ...prevState,
-                            "doctorID": Number(event.target.value)
-                        }))
-                    }}
-                    >
-                        <option>Select doctor...</option>
-                        {doctors.map(doctor =>
-                            <option key={doctor.doctorID}
-                                    value={doctor.doctorID}>Dr. {doctor.doctorFirstName} {doctor.doctorLastName}</option>
-                        )}
-                    </Form.Select>
-                </Form.Group>
-                <h6>Select Date:</h6>
-                <Form.Group className="mb-3" controlId="form.calendar">
-                    <DatePicker dateFormat="dd/MM/yyyy"
-                                filterDate={isWeekday}
-                                selected={appointmentDate}
-                                minDate={new Date()}
-                                placeholderText="Click to select date..."
-                                onSelect={(date) => {
-                                    setAppointmentDate(date);   // only (re)populates the field
-                                    setAppointment(prevState => ({
-                                        ...prevState,
-                                        "date": Number(formatDate(date))
-                                    }))
-                                }}/>
-                    <Button type="submit" variant="primary" size="sm" className="mt-2" disabled={disabledAppointments}>Show
-                        available time slots</Button>
-                </Form.Group>
+                <Row className="mb-2">
+                    <Form.Group as={Col} xl={5} md={6} controlId="form.doctorDropdown">
+                        <Form.Select aria-label="Select doctor..." onChange={(event) => {
+                            setDisabledAppointments(false);
+                            setAppointment(prevState => ({
+                                ...prevState,
+                                "doctorID": Number(event.target.value)
+                            }))
+                        }}
+                        >
+                            <option>Select doctor...</option>
+                            {doctors.map(doctor =>
+                                <option key={doctor.doctorID}
+                                        value={doctor.doctorID}>Dr. {doctor.doctorFirstName} {doctor.doctorLastName}</option>
+                            )}
+                        </Form.Select>
+                    </Form.Group>
+                </Row>
+                <Row className="mb-2">
+                    <h6>Select Date:</h6>
+                    <Form.Group as={Col} xl={6} controlId="form.calendar">
+                        <div className="d-flex mb-1">
+                            <div className="align-self-center">
+                                <DatePicker dateFormat="dd/MM/yyyy"
+                                            filterDate={isWeekday}
+                                            selected={appointmentDate}
+                                            minDate={new Date()}
+                                            placeholderText="Click to select date..."
+                                            onSelect={(date) => {
+                                                setAppointmentDate(date);   // only (re)populates the field
+                                                setAppointment(prevState => ({
+                                                    ...prevState,
+                                                    "date": Number(formatDate(date))
+                                                }))
+                                            }}/>
+                            </div>
+                            <div className="align-self-center  mx-1">
+                                <img src={calLogo} width="30" height="30"/>
+                            </div>
+                        </div>
+                        <Button type="submit" variant="primary" size="sm" className="mt-2"
+                                disabled={disabledAppointments}>Show
+                            available time slots</Button>
+                    </Form.Group>
+                </Row>
 
             </Form>
 

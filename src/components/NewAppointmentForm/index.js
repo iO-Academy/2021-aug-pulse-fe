@@ -32,18 +32,28 @@ const NewAppointmentForm = () => {
 
     }, [])
 
+    /**
+     * Helper function to display full doctor name
+     * @param id
+     * @returns {`Dr. ${*} ${*}`}
+     */
     const displayDoctor = (id) => {
         const doctor = doctors.filter(x => x.doctorID === id)[0];
         return `Dr. ${doctor['doctorFirstName']} ${doctor['doctorLastName']}`;
     };
 
+    /**
+     * Helper function to display time slot
+     * @param id
+     * @returns {*}
+     */
     const displayAppointmentTime = (id) => {
         const slots = [
             {id: 9, time: '09:00'}, {id: 10, time: '10:00'}, {id: 11, time: '11:00'},
             {id: 12, time: '12:00'}, {id: 13, time: '13:00'}, {id: 14, time: '14:00'},
             {id: 15, time: '15:00'}, {id: 16, time: '16:00'}];
 
-        return slots.filter(slot => slot.id === id);
+        return slots.find(slot => slot.id === Number(id)).time;
     };
 
     const formDataChangeHandler = (event) => {
@@ -53,6 +63,8 @@ const NewAppointmentForm = () => {
         }));
 
         // Re-injecting values is needed for modal (consider refactoring)
+        // When modal shows, parent component is rendered again, losing appointment data.
+        // Modals do not accept props easily in JSX, so data must be provided to location.state
         location.state.appointment[event.target.id] = event.target.value;
         location.state.appointment['doctorFullName'] = displayDoctor(location.state.appointment['doctorID']);
         location.state.appointment['appointmentTime'] = displayAppointmentTime(location.state.appointment['timeID']);
