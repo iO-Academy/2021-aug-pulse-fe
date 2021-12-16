@@ -1,5 +1,6 @@
 import './App.css';
 import { Outlet, Link } from "react-router-dom";
+import logo from "./assets/pulse-doctor-logo.svg";
 
 function App() {
     return (
