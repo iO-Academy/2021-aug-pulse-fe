@@ -37,6 +37,15 @@ const NewAppointmentForm = () => {
         return `Dr. ${doctor['doctorFirstName']} ${doctor['doctorLastName']}`;
     };
 
+    const displayAppointmentTime = (id) => {
+        const slots = [
+            {id: 9, time: '09:00'}, {id: 10, time: '10:00'}, {id: 11, time: '11:00'},
+            {id: 12, time: '12:00'}, {id: 13, time: '13:00'}, {id: 14, time: '14:00'},
+            {id: 15, time: '15:00'}, {id: 16, time: '16:00'}];
+
+        return slots.filter(slot => slot.id === id);
+    };
+
     const formDataChangeHandler = (event) => {
         setAppointment(prevState => ({
             ...prevState,
@@ -46,6 +55,7 @@ const NewAppointmentForm = () => {
         // Re-injecting values is needed for modal (consider refactoring)
         location.state.appointment[event.target.id] = event.target.value;
         location.state.appointment['doctorFullName'] = displayDoctor(location.state.appointment['doctorID']);
+        location.state.appointment['appointmentTime'] = displayAppointmentTime(location.state.appointment['timeID']);
     };
 
     async function addAppointment() {
@@ -152,7 +162,7 @@ const NewAppointmentForm = () => {
                                 </ListGroupItem>
                                 <ListGroupItem>Appointment
                                     Date: {location.state.appointment['date']}</ListGroupItem>
-                                <ListGroupItem>Time Slot: {location.state.appointment['timeID']}</ListGroupItem>
+                                <ListGroupItem>Time Slot: {location.state.appointment['appointmentTime']}</ListGroupItem>
                                 <ListGroupItem>Patient: {location.state.appointment['patientFirstName']}
                                     &nbsp;{location.state.appointment['patientLastName']}</ListGroupItem>
                                 <ListGroupItem>Patient

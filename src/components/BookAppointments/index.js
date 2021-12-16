@@ -119,18 +119,10 @@ const BookAppointments = () => {
 
             <AvailableAppointments appointments={appointments}
                                    appointmentDateHandler={setAppointmentSlotHandler}/>
-            {/*<Link*/}
-            {/*    to={'/newappointment'}*/}
-            {/*    state={{appointment}}*/}
-            {/*    className="btn btn-primary" disabled="true">Continue</Link>*/}
 
-            {/*<OverlayTrigger overlay={<Tooltip id="tooltip-disabled">Please select a doctor</Tooltip>}>*/}
-            {/*    <span className="d-inline-block">*/}
             <Button className="btn btn-primary mt-2"
                     disabled={disabledContinue}
                     onClick={() => navigate("/newappointment", {state: {appointment}})}>Continue</Button>
-            {/*    </span>*/}
-            {/*</OverlayTrigger>*/}
 
         </Container>
     )
