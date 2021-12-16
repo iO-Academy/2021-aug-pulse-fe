@@ -191,8 +191,6 @@ const NewAppointmentForm = () => {
                     </Modal.Footer>
                 </Modal>
             </div>
-
-
         </div>
     )
 };
