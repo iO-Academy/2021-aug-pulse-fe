@@ -9,8 +9,8 @@ const NewAppointmentForm = () => {
     console.log(`[params]: ${urlSearchParams.get('doctorId') }`);
 
     const location = useLocation()
-    const { from } = location.state;
-    console.log(`[state]: ${location.state.doctorId}`);
+    // const { from } = location.state;
+    // console.log(`[state]: ${location.state.doctorId}`);
     // console.log(`[state]: ${from.doctorId}`);
 
     return (
@@ -19,7 +19,7 @@ const NewAppointmentForm = () => {
 
                 <h3>Patient Information</h3>
                 <h5>please fill out your details below</h5>
-                {/*form for patient information*/}
+                {/*form for patient inzformation*/}
                 <Form>
                     <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                         <Form.Label>Email address</Form.Label>
@@ -38,8 +38,10 @@ const NewAppointmentForm = () => {
                         <Form.Control as="textarea" rows={5} placeholder="Description of Symptoms" />
                     </Form.Group>
                 </Form>
-                <Link to="/confirmappointment" className="btn btn-primary">Confirm</Link>
-                <Link to="/appointments" className="btn btn-primary">Back</Link>
+                <div className="d-flex justify-content-evenly">
+                    <Link to="/appointments" className="btn btn-secondary">Back</Link>
+                <Link to="/confirmappointment" className="btn btn-success me-2">Confirm</Link>
+                </div>
 
 
             </div>

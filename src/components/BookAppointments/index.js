@@ -86,6 +86,7 @@ const BookAppointments = () => {
                         )}
                     </Form.Select>
                 </Form.Group>
+                <h6>Select Date:</h6>
                 <Form.Group className="mb-3" controlId="form.calendar">
                     <DatePicker dateFormat="dd/MM/yyyy"
                                 filterDate={isWeekday}
@@ -94,14 +95,14 @@ const BookAppointments = () => {
                     {/*<Form.Control type="date" name="appDate"*/}
                     {/*              onChange={(event) =>*/}
                     {/*                  setAppointmentDate(event.target.value)}/>*/}
-                    <Button type="submit">Show available time slots</Button>
+                    <Button variant="primary" size="sm">Show available time slots</Button>
                 </Form.Group>
 
             </Form>
 
             <AvailableAppointments appointments={appointments}
                                    appointmentDateHandler={setAppointmentSlotHandler}/>
-            <Link
+             <Link
                 to={`/newappointment?doctorId=${appointmentDoctor}&slot=${appointmentSlot}&appdate=${formatDate(appointmentDate)}`}
                 // state = {{ from: appointment }}
                 state = {{doctorId: 3, slotId: 14, appDate: 24122021}}
