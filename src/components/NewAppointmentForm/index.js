@@ -49,9 +49,9 @@ const NewAppointmentForm = () => {
      */
     const displayAppointmentTime = (id) => {
         const slots = [
-            {id: 9, time: '09:00'}, {id: 10, time: '10:00'}, {id: 11, time: '11:00'},
-            {id: 12, time: '12:00'}, {id: 13, time: '13:00'}, {id: 14, time: '14:00'},
-            {id: 15, time: '15:00'}, {id: 16, time: '16:00'}];
+            {id: 9, time: '09:00 - 10:00'}, {id: 10, time: '10:00 - 11:00'}, {id: 11, time: '11:00 - 12:00'},
+            {id: 12, time: '12:00 - 13:00'}, {id: 13, time: '13:00 - 14:00'}, {id: 14, time: '14:00 - 15:00'},
+            {id: 15, time: '15:00 - 16:00'}, {id: 16, time: '16:00 - 17:00'}];
 
         return slots.find(slot => slot.id === Number(id)).time;
     };
